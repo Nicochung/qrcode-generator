@@ -1,30 +1,21 @@
-'use strict';
-namespace com.d_project.qrcode {
+export enum Mode {
+  /**
+   * number
+   */
+  MODE_NUMBER = 1 << 0,
 
   /**
-   * Mode
-   * @author Kazuhiko Arase
+   * alphabet and number
    */
-  export enum Mode {
+  MODE_ALPHA_NUM = 1 << 1,
 
-    /**
-     * number
-     */
-    MODE_NUMBER = 1 << 0,
+  /**
+   * 8bit byte
+   */
+  MODE_8BIT_BYTE = 1 << 2,
 
-    /**
-     * alphabet and number
-     */
-    MODE_ALPHA_NUM = 1 << 1,
-
-    /**
-     * 8bit byte
-     */
-    MODE_8BIT_BYTE = 1 << 2,
-
-    /**
-     * KANJI
-     */
-    MODE_KANJI = 1 << 3
-  }
+  /**
+   * KANJI
+   */
+  MODE_KANJI = 1 << 3,
 }

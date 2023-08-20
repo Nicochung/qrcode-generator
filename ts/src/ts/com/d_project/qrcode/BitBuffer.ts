@@ -1,54 +1,45 @@
-'use strict';
-namespace com.d_project.qrcode {
+export class BitBuffer {
+  private buffer: number[];
+  private length: number;
 
-  /**
-   * BitBuffer
-   * @author Kazuhiko Arase
-   */
-  export class BitBuffer {
+  public constructor() {
+    this.buffer = [];
+    this.length = 0;
+  }
 
-    private buffer : number[];
-    private length : number;
+  public getBuffer(): number[] {
+    return this.buffer;
+  }
 
-    public constructor() {
-      this.buffer = [];
-      this.length = 0;
+  public getLengthInBits(): number {
+    return this.length;
+  }
+
+  public toString(): string {
+    let buffer = "";
+    for (let i = 0; i < this.getLengthInBits(); i += 1) {
+      buffer += this.getBit(i) ? "1" : "0";
     }
+    return buffer;
+  }
 
-    public getBuffer() : number[] {
-      return this.buffer;
-    }
+  private getBit(index: number): boolean {
+    return ((this.buffer[~~(index / 8)] >>> (7 - (index % 8))) & 1) == 1;
+  }
 
-    public getLengthInBits() : number {
-      return this.length;
+  public put(num: number, length: number): void {
+    for (let i = 0; i < length; i += 1) {
+      this.putBit(((num >>> (length - i - 1)) & 1) == 1);
     }
+  }
 
-    public toString() : string {
-      let buffer = '';
-      for (let i = 0; i < this.getLengthInBits(); i += 1) {
-        buffer += this.getBit(i)? '1' : '0';
-      }
-      return buffer;
+  public putBit(bit: boolean): void {
+    if (this.length == this.buffer.length * 8) {
+      this.buffer.push(0);
     }
-
-    private getBit(index : number) : boolean {
-      return ( (this.buffer[~~(index / 8)] >>> (7 - index % 8) ) & 1) == 1;
+    if (bit) {
+      this.buffer[~~(this.length / 8)] |= 0x80 >>> this.length % 8;
     }
-
-    public put(num : number, length : number) : void {
-      for (let i = 0; i < length; i += 1) {
-        this.putBit( ( (num >>> (length - i - 1) ) & 1) == 1);
-      }
-    }
-
-    public putBit(bit : boolean) : void {
-      if (this.length == this.buffer.length * 8) {
-        this.buffer.push(0);
-      }
-      if (bit) {
-        this.buffer[~~(this.length / 8)] |= (0x80 >>> (this.length % 8) );
-      }
-      this.length += 1;
-    }
+    this.length += 1;
   }
 }

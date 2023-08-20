@@ -1,48 +1,43 @@
-'use strict';
-namespace com.d_project.io {
+import { Base64DecodeInputStream } from "./Base64DecodeInputStream";
+import { Base64EncodeOutputStream } from "./Base64EncodeOutputStream";
+import { ByteArrayInputStream } from "./ByteArrayInputStream";
+import { ByteArrayOutputStream } from "./ByteArrayOutputStream";
 
-  /**
-   * Base64
-   * @author Kazuhiko Arase
-   */
-  export class Base64 {
+export class Base64 {
+  constructor() {
+    throw "error";
+  }
 
-    constructor() {
-      throw 'error';
-    }
-
-    public static encode(data : number[]) : number[] {
-      let bout = new ByteArrayOutputStream();
+  public static encode(data: number[]): number[] {
+    const bout = new ByteArrayOutputStream();
+    try {
+      const ostream = new Base64EncodeOutputStream(bout);
       try {
-        let ostream = new Base64EncodeOutputStream(bout);
-        try {
-          ostream.writeBytes(data);
-        } finally {
-          ostream.close();
+        ostream.writeBytes(data);
+      } finally {
+        ostream.close();
+      }
+    } finally {
+      bout.close();
+    }
+    return bout.toByteArray();
+  }
+
+  public static decode(data: number[]): number[] {
+    const bout = new ByteArrayOutputStream();
+    try {
+      let istream = new Base64DecodeInputStream(new ByteArrayInputStream(data));
+      try {
+        let b: number;
+        while ((b = istream.readByte()) != -1) {
+          bout.writeByte(b);
         }
       } finally {
-        bout.close();
+        istream.close();
       }
-      return bout.toByteArray();
+    } finally {
+      bout.close();
     }
-
-    public static decode(data : number[]) : number[] {
-      let bout = new ByteArrayOutputStream();
-      try {
-        let istream = new Base64DecodeInputStream(
-          new ByteArrayInputStream(data) );
-        try {
-            let b : number;
-            while ( (b = istream.readByte() ) != -1) {
-                bout.writeByte(b);
-            }
-        } finally {
-            istream.close();
-        }
-      } finally {
-        bout.close();
-      }
-      return bout.toByteArray();
-    }
+    return bout.toByteArray();
   }
 }

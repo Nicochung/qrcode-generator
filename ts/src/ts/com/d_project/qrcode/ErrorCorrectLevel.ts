@@ -1,30 +1,21 @@
-'use strict';
-namespace com.d_project.qrcode {
+export enum ErrorCorrectLevel {
+  /**
+   * 7%
+   */
+  L = 1,
 
   /**
-   * ErrorCorrectLevel
-   * @author Kazuhiko Arase
+   * 15%
    */
-  export enum ErrorCorrectLevel {
+  M = 0,
 
-    /**
-     * 7%
-     */
-    L = 1,
+  /**
+   * 25%
+   */
+  Q = 3,
 
-    /**
-     * 15%
-     */
-    M = 0,
-
-    /**
-     * 25%
-     */
-    Q = 3,
-
-    /**
-     * 30%
-     */
-    H = 2
-  }
+  /**
+   * 30%
+   */
+  H = 2,
 }
