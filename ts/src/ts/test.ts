@@ -20,7 +20,7 @@ namespace test {
     // uncomment if UTF-8 support is required.
     //QRCode.stringToBytes = com.d_project.text.stringToBytes_UTF8;
 
-    var qr = new QRCode();
+    let qr = new QRCode();
     qr.setTypeNumber(5);
     qr.setErrorCorrectLevel(ErrorCorrectLevel.L);
     qr.addData(new QRNumber('0123') ); // Number only
@@ -31,7 +31,7 @@ namespace test {
     qr.make();
   
     // img
-    var img = document.createElement('img');
+    let img = document.createElement('img');
     img.setAttribute('src', qr.toDataURL() );
     document.body.appendChild(img);
   
@@ -41,11 +41,11 @@ namespace test {
 
   function createCanvas(qr : QRCode, cellSize = 2, margin = cellSize * 4) {
 
-    var canvas = document.createElement('canvas');
-    var size = qr.getModuleCount() * cellSize + margin * 2;
+    let canvas = document.createElement('canvas');
+    let size = qr.getModuleCount() * cellSize + margin * 2;
     canvas.width = size;
     canvas.height = size;
-    var ctx = canvas.getContext('2d');
+    let ctx = canvas.getContext('2d');
 
     // fill background
     ctx.fillStyle = '#ffffff';
@@ -53,8 +53,8 @@ namespace test {
 
     // draw cells
     ctx.fillStyle = '#000000';
-    for (var row = 0; row < qr.getModuleCount(); row += 1) {
-      for (var col = 0; col < qr.getModuleCount(); col += 1) {
+    for (let row = 0; row < qr.getModuleCount(); row += 1) {
+      for (let col = 0; col < qr.getModuleCount(); col += 1) {
         if (qr.isDark(row, col) ) {
           ctx.fillRect(
             col * cellSize + margin,

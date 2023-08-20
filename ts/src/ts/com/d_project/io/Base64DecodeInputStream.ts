@@ -19,7 +19,7 @@ namespace com.d_project.io {
 
       while (this.buflen < 8) {
 
-        var c = this.istream.readByte();
+        let c = this.istream.readByte();
 
         if (c == -1) {
 
@@ -44,7 +44,7 @@ namespace com.d_project.io {
         this.buflen += 6;
       }
 
-      var n = (this.buffer >>> (this.buflen - 8) ) & 0xff;
+      let n = (this.buffer >>> (this.buflen - 8) ) & 0xff;
       this.buflen -= 8;
       return n;
     }

@@ -37,8 +37,8 @@ namespace com.d_project.io {
 
       if (this.length % 3 != 0) {
           // padding
-          var padlen = 3 - this.length % 3;
-          for (var i = 0; i < padlen; i += 1) {
+          let padlen = 3 - this.length % 3;
+          for (let i = 0; i < padlen; i += 1) {
               this.ostream.writeByte('='.charCodeAt(0) );
           }
       }

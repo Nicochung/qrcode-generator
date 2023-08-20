@@ -13,8 +13,8 @@ namespace com.d_project.qrcode {
     }
 
     public write(buffer : BitBuffer) : void {
-      var data = QRCode.stringToBytes(this.getData() );
-      for (var i = 0; i < data.length; i += 1) {
+      let data = QRCode.stringToBytes(this.getData() );
+      for (let i = 0; i < data.length; i += 1) {
         buffer.put(data[i], 8);
       }
     }

@@ -9,7 +9,7 @@ namespace com.d_project.io {
     constructor() {}
     public abstract writeByte(b : number) : void;
     public writeBytes(bytes : number[]) : void {
-      for (var i = 0; i < bytes.length; i += 1) {
+      for (let i = 0; i < bytes.length; i += 1) {
         this.writeByte(bytes[i]);
       }
     }

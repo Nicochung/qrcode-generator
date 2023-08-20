@@ -8,9 +8,9 @@ namespace com.d_project.text {
   export function stringToBytes_UTF8(s : string) : number[] {
     // http://stackoverflow.com/questions/18729405/how-to-convert-utf8-string-to-byte-array
     function toUTF8Array(str : string) : number[] {
-      var utf8 : number[] = [];
-      for (var i=0; i < str.length; i++) {
-        var charcode = str.charCodeAt(i);
+      let utf8 : number[] = [];
+      for (let i=0; i < str.length; i++) {
+        let charcode = str.charCodeAt(i);
         if (charcode < 0x80) utf8.push(charcode);
         else if (charcode < 0x800) {
           utf8.push(0xc0 | (charcode >> 6),

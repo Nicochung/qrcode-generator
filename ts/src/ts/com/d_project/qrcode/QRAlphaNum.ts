@@ -14,9 +14,9 @@ namespace com.d_project.qrcode {
 
     public write(buffer : BitBuffer) : void {
 
-      var s = this.getData();
+      let s = this.getData();
 
-      var i = 0;
+      let i = 0;
 
       while (i + 1 < s.length) {
         buffer.put(

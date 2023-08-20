@@ -18,31 +18,31 @@ namespace com.d_project.text {
     numChars : number
   ) : (s : string) => number[] {
     function toBytes(s : string) : number[] {
-      var bytes : number[] = [];
-      for (var i = 0; i < s.length; i += 1) {
+      let bytes : number[] = [];
+      for (let i = 0; i < s.length; i += 1) {
         bytes.push(s.charCodeAt(i) );
       }
       return bytes;
     }
     // create conversion map.
-    var unicodeMap = function() {
-      var bin = new Base64DecodeInputStream(
+    let unicodeMap = function() {
+      let bin = new Base64DecodeInputStream(
         new ByteArrayInputStream(toBytes(unicodeData) ) );
-      var read = function() {
-        var b = bin.readByte();
+      let read = function() {
+        let b = bin.readByte();
         if (b == -1) throw 'eof';
         return b;
       };
-      var count = 0;
-      var unicodeMap : { [ch : string] : number; } = {};
+      let count = 0;
+      let unicodeMap : { [ch : string] : number; } = {};
       while (true) {
-        var b0 = bin.readByte();
+        let b0 = bin.readByte();
         if (b0 == -1) break;
-        var b1 = read();
-        var b2 = read();
-        var b3 = read();
-        var k = String.fromCharCode( (b0 << 8) | b1);
-        var v = (b2 << 8) | b3;
+        let b1 = read();
+        let b2 = read();
+        let b3 = read();
+        let k = String.fromCharCode( (b0 << 8) | b1);
+        let v = (b2 << 8) | b3;
         unicodeMap[k] = v;
         count += 1;
       }
@@ -52,16 +52,16 @@ namespace com.d_project.text {
       return unicodeMap;
     }();
 
-    var unknownChar = '?'.charCodeAt(0);
+    let unknownChar = '?'.charCodeAt(0);
 
     return function(s : string) : number[] {
-      var bytes : number[] = [];
-      for (var i = 0; i < s.length; i += 1) {
-        var c = s.charCodeAt(i);
+      let bytes : number[] = [];
+      for (let i = 0; i < s.length; i += 1) {
+        let c = s.charCodeAt(i);
         if (c < 128) {
           bytes.push(c);
         } else {
-          var b = unicodeMap[s.charAt(i)];
+          let b = unicodeMap[s.charAt(i)];
           if (typeof b == 'number') {
             if ( (b & 0xff) == b) {
               // 1byte

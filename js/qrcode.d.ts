@@ -50,7 +50,7 @@ interface QRCode {
   renderTo2dContext(context: CanvasRenderingContext2D, cellSize?: number): void;
 }
 
-declare var qrcode : QRCodeFactory;
+declare let qrcode : QRCodeFactory;
 
 declare module 'qrcode-generator' {
   export = qrcode;

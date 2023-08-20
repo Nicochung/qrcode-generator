@@ -24,8 +24,8 @@ namespace com.d_project.qrcode {
     }
 
     public toString() : string {
-      var buffer = '';
-      for (var i = 0; i < this.getLengthInBits(); i += 1) {
+      let buffer = '';
+      for (let i = 0; i < this.getLengthInBits(); i += 1) {
         buffer += this.getBit(i)? '1' : '0';
       }
       return buffer;
@@ -36,7 +36,7 @@ namespace com.d_project.qrcode {
     }
 
     public put(num : number, length : number) : void {
-      for (var i = 0; i < length; i += 1) {
+      for (let i = 0; i < length; i += 1) {
         this.putBit( ( (num >>> (length - i - 1) ) & 1) == 1);
       }
     }

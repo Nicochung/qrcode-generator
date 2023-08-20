@@ -21,9 +21,9 @@ namespace com.d_project.image {
     constructor(width : number, height : number) {
       this.width = width;
       this.height = height;
-      var size = width * height;
+      let size = width * height;
       this.data = [];
-      for (var i = 0; i < size; i += 1) {
+      for (let i = 0; i < size; i += 1) {
         this.data.push(0);
       }
     }
@@ -91,12 +91,12 @@ namespace com.d_project.image {
       //---------------------------------
       // Raster Data
 
-      var lzwMinCodeSize = 2;
-      var raster = this.getLZWRaster(lzwMinCodeSize);
+      let lzwMinCodeSize = 2;
+      let raster = this.getLZWRaster(lzwMinCodeSize);
 
       out.writeByte(lzwMinCodeSize);
 
-      var offset : number = 0;
+      let offset : number = 0;
 
       while (raster.length - offset > 255) {
         out.writeByte(255);
@@ -115,33 +115,33 @@ namespace com.d_project.image {
 
     private getLZWRaster(lzwMinCodeSize : number) : number[] {
 
-      var clearCode = 1 << lzwMinCodeSize;
-      var endCode   = (1 << lzwMinCodeSize) + 1;
-      var bitLength = lzwMinCodeSize + 1;
+      let clearCode = 1 << lzwMinCodeSize;
+      let endCode   = (1 << lzwMinCodeSize) + 1;
+      let bitLength = lzwMinCodeSize + 1;
 
       // Setup LZWTable
-      var table = new LZWTable();
+      let table = new LZWTable();
 
-      for (var i = 0; i < clearCode; i += 1) {
+      for (let i = 0; i < clearCode; i += 1) {
         table.add(String.fromCharCode(i) );
       }
       table.add(String.fromCharCode(clearCode) );
       table.add(String.fromCharCode(endCode) );
 
-      var byteOut = new ByteArrayOutputStream();
-      var bitOut  = new BitOutputStream(byteOut);
+      let byteOut = new ByteArrayOutputStream();
+      let bitOut  = new BitOutputStream(byteOut);
 
       try {
 
         // clear code
         bitOut.write(clearCode, bitLength);
 
-        var dataIndex = 0;
-        var s = String.fromCharCode(this.data[dataIndex]);
+        let dataIndex = 0;
+        let s = String.fromCharCode(this.data[dataIndex]);
         dataIndex += 1;
 
         while (dataIndex < this.data.length) {
-          var c = String.fromCharCode(this.data[dataIndex]);
+          let c = String.fromCharCode(this.data[dataIndex]);
           dataIndex += 1;
           if (table.contains(s + c) ) {
               s = s + c;
@@ -178,18 +178,18 @@ namespace com.d_project.image {
       out : OutputStream,
       bytes : number[], off : number, len : number
     ) {
-      for (var i = 0; i < len; i += 1) {
+      for (let i = 0; i < len; i += 1) {
         out.writeByte(bytes[i + off]);
       }
     }
 
     public toDataURL() : string {
-      var bout = new ByteArrayOutputStream();
+      let bout = new ByteArrayOutputStream();
       this.write(bout);
       bout.close();
-      var s = '';
-      var bytes = Base64.encode(bout.toByteArray() );
-      for (var i = 0; i < bytes.length; i += 1) {
+      let s = '';
+      let bytes = Base64.encode(bout.toByteArray() );
+      for (let i = 0; i < bytes.length; i += 1) {
         s += String.fromCharCode(bytes[i]);
       }
       return 'data:image/gif;base64,' + s;

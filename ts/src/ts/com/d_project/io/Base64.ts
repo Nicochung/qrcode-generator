@@ -12,9 +12,9 @@ namespace com.d_project.io {
     }
 
     public static encode(data : number[]) : number[] {
-      var bout = new ByteArrayOutputStream();
+      let bout = new ByteArrayOutputStream();
       try {
-        var ostream = new Base64EncodeOutputStream(bout);
+        let ostream = new Base64EncodeOutputStream(bout);
         try {
           ostream.writeBytes(data);
         } finally {
@@ -27,12 +27,12 @@ namespace com.d_project.io {
     }
 
     public static decode(data : number[]) : number[] {
-      var bout = new ByteArrayOutputStream();
+      let bout = new ByteArrayOutputStream();
       try {
-        var istream = new Base64DecodeInputStream(
+        let istream = new Base64DecodeInputStream(
           new ByteArrayInputStream(data) );
         try {
-            var b : number;
+            let b : number;
             while ( (b = istream.readByte() ) != -1) {
                 bout.writeByte(b);
             }

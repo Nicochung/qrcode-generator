@@ -103,14 +103,14 @@ namespace com.d_project.qrcode {
 
     private getBestMaskPattern() : number {
 
-      var minLostPoint = 0;
-      var pattern = 0;
+      let minLostPoint = 0;
+      let pattern = 0;
 
-      for (var i = 0; i < 8; i += 1) {
+      for (let i = 0; i < 8; i += 1) {
 
         this.makeImpl(true, i);
 
-        var lostPoint = QRUtil.getLostPoint(this);
+        let lostPoint = QRUtil.getLostPoint(this);
 
         if (i == 0 || minLostPoint >  lostPoint) {
           minLostPoint = lostPoint;
@@ -126,9 +126,9 @@ namespace com.d_project.qrcode {
       // initialize modules
       this.moduleCount = this.typeNumber * 4 + 17;
       this.modules = [];
-      for (var i = 0; i < this.moduleCount; i += 1) {
+      for (let i = 0; i < this.moduleCount; i += 1) {
         this.modules.push([]);
-        for (var j = 0; j < this.moduleCount; j += 1) {
+        for (let j = 0; j < this.moduleCount; j += 1) {
           this.modules[i].push(null);
         }
       }
@@ -146,20 +146,20 @@ namespace com.d_project.qrcode {
         this.setupTypeNumber(test);
       }
 
-      var data = QRCode.createData(
+      let data = QRCode.createData(
         this.typeNumber, this.errorCorrectLevel, this.qrDataList);
       this.mapData(data, maskPattern);
     }
 
     private mapData(data : number[], maskPattern : number) : void {
 
-      var inc = -1;
-      var row = this.moduleCount - 1;
-      var bitIndex = 7;
-      var byteIndex = 0;
-      var maskFunc = QRUtil.getMaskFunc(maskPattern);
+      let inc = -1;
+      let row = this.moduleCount - 1;
+      let bitIndex = 7;
+      let byteIndex = 0;
+      let maskFunc = QRUtil.getMaskFunc(maskPattern);
 
-      for (var col = this.moduleCount - 1; col > 0; col -= 2) {
+      for (let col = this.moduleCount - 1; col > 0; col -= 2) {
 
         if (col == 6) {
           col -= 1;
@@ -167,17 +167,17 @@ namespace com.d_project.qrcode {
 
         while (true) {
 
-          for (var c = 0; c < 2; c += 1) {
+          for (let c = 0; c < 2; c += 1) {
 
             if (this.modules[row][col - c] == null) {
 
-              var dark = false;
+              let dark = false;
 
               if (byteIndex < data.length) {
                 dark = ( ( (data[byteIndex] >>> bitIndex) & 1) == 1);
               }
 
-              var mask = maskFunc(row, col - c);
+              let mask = maskFunc(row, col - c);
 
               if (mask) {
                 dark = !dark;
@@ -206,22 +206,22 @@ namespace com.d_project.qrcode {
 
     private setupPositionAdjustPattern() : void {
 
-      var pos = QRUtil.getPatternPosition(this.typeNumber);
+      let pos = QRUtil.getPatternPosition(this.typeNumber);
 
-      for (var i = 0; i < pos.length; i += 1) {
+      for (let i = 0; i < pos.length; i += 1) {
 
-        for (var j = 0; j < pos.length; j += 1) {
+        for (let j = 0; j < pos.length; j += 1) {
 
-          var row = pos[i];
-          var col = pos[j];
+          let row = pos[i];
+          let col = pos[j];
 
           if (this.modules[row][col] != null) {
             continue;
           }
 
-          for (var r = -2; r <= 2; r += 1) {
+          for (let r = -2; r <= 2; r += 1) {
 
-            for (var c = -2; c <= 2; c += 1) {
+            for (let c = -2; c <= 2; c += 1) {
 
               if (r == -2 || r == 2 || c == -2 || c == 2
                   || (r == 0 && c == 0) ) {
@@ -237,9 +237,9 @@ namespace com.d_project.qrcode {
 
     private setupPositionProbePattern(row : number, col : number) : void {
 
-      for (var r = -1; r <= 7; r += 1) {
+      for (let r = -1; r <= 7; r += 1) {
 
-        for (var c = -1; c <= 7; c += 1) {
+        for (let c = -1; c <= 7; c += 1) {
 
           if (row + r <= -1 || this.moduleCount <= row + r
               || col + c <= -1 || this.moduleCount <= col + c) {
@@ -258,13 +258,13 @@ namespace com.d_project.qrcode {
     }
 
     private setupTimingPattern() : void {
-      for (var r = 8; r < this.moduleCount - 8; r += 1) {
+      for (let r = 8; r < this.moduleCount - 8; r += 1) {
         if (this.modules[r][6] != null) {
           continue;
         }
         this.modules[r][6] = r % 2 == 0;
       }
-      for (var c = 8; c < this.moduleCount - 8; c += 1) {
+      for (let c = 8; c < this.moduleCount - 8; c += 1) {
         if (this.modules[6][c] != null) {
           continue;
         }
@@ -274,14 +274,14 @@ namespace com.d_project.qrcode {
 
     private setupTypeNumber(test : boolean) : void {
 
-      var bits = QRUtil.getBCHTypeNumber(this.typeNumber);
+      let bits = QRUtil.getBCHTypeNumber(this.typeNumber);
 
-      for (var i = 0; i < 18; i += 1) {
+      for (let i = 0; i < 18; i += 1) {
         this.modules[~~(i / 3)][i % 3 + this.moduleCount - 8 - 3] =
           !test && ( (bits >> i) & 1) == 1;
       }
 
-      for (var i = 0; i < 18; i += 1) {
+      for (let i = 0; i < 18; i += 1) {
         this.modules[i % 3 + this.moduleCount - 8 - 3][~~(i / 3)] =
           !test && ( (bits >> i) & 1) == 1;
       }
@@ -289,13 +289,13 @@ namespace com.d_project.qrcode {
 
     private setupTypeInfo(test : boolean, maskPattern : number) : void {
 
-      var data = (this.errorCorrectLevel << 3) | maskPattern;
-      var bits = QRUtil.getBCHTypeInfo(data);
+      let data = (this.errorCorrectLevel << 3) | maskPattern;
+      let bits = QRUtil.getBCHTypeInfo(data);
 
       // vertical
-      for (var i = 0; i < 15; i += 1) {
+      for (let i = 0; i < 15; i += 1) {
 
-        var mod = !test && ( (bits >> i) & 1) == 1;
+        let mod = !test && ( (bits >> i) & 1) == 1;
 
         if (i < 6) {
           this.modules[i][8] = mod;
@@ -307,9 +307,9 @@ namespace com.d_project.qrcode {
       }
 
       // horizontal
-      for (var i = 0; i < 15; i += 1) {
+      for (let i = 0; i < 15; i += 1) {
 
-        var mod = !test && ( (bits >> i) & 1) == 1;
+        let mod = !test && ( (bits >> i) & 1) == 1;
 
         if (i < 8) {
           this.modules[8][this.moduleCount - i - 1] = mod;
@@ -330,21 +330,21 @@ namespace com.d_project.qrcode {
       dataArray : QRData[]
     ) : number[] {
 
-      var rsBlocks : RSBlock[] = RSBlock.getRSBlocks(
+      let rsBlocks : RSBlock[] = RSBlock.getRSBlocks(
         typeNumber, errorCorrectLevel);
 
-      var buffer = new BitBuffer();
+      let buffer = new BitBuffer();
 
-      for (var i = 0; i < dataArray.length; i += 1) {
-        var data = dataArray[i];
+      for (let i = 0; i < dataArray.length; i += 1) {
+        let data = dataArray[i];
         buffer.put(data.getMode(), 4);
         buffer.put(data.getLength(), data.getLengthInBits(typeNumber) );
         data.write(buffer);
       }
 
       // calc max data count
-      var totalDataCount = 0;
-      for (var i = 0; i < rsBlocks.length; i += 1) {
+      let totalDataCount = 0;
+      for (let i = 0; i < rsBlocks.length; i += 1) {
         totalDataCount += rsBlocks[i].getDataCount();
       }
 
@@ -388,62 +388,62 @@ namespace com.d_project.qrcode {
       rsBlocks : RSBlock[]
     ) : number[] {
 
-      var offset = 0;
+      let offset = 0;
 
-      var maxDcCount = 0;
-      var maxEcCount = 0;
+      let maxDcCount = 0;
+      let maxEcCount = 0;
 
-      var dcdata : number[][] = [];
-      var ecdata : number[][] = [];
+      let dcdata : number[][] = [];
+      let ecdata : number[][] = [];
 
-      for (var r = 0; r < rsBlocks.length; r += 1) {
+      for (let r = 0; r < rsBlocks.length; r += 1) {
         dcdata.push([]);
         ecdata.push([]);
       }
 
       function createNumArray(len : number) : number[] {
-        var a : number[] = [];
-        for (var i = 0; i < len; i += 1) {
+        let a : number[] = [];
+        for (let i = 0; i < len; i += 1) {
           a.push(0);
         }
         return a;
       }
 
-      for (var r = 0; r < rsBlocks.length; r += 1) {
+      for (let r = 0; r < rsBlocks.length; r += 1) {
 
-        var dcCount = rsBlocks[r].getDataCount();
-        var ecCount = rsBlocks[r].getTotalCount() - dcCount;
+        let dcCount = rsBlocks[r].getDataCount();
+        let ecCount = rsBlocks[r].getTotalCount() - dcCount;
 
         maxDcCount = Math.max(maxDcCount, dcCount);
         maxEcCount = Math.max(maxEcCount, ecCount);
 
         dcdata[r] = createNumArray(dcCount);
-        for (var i = 0; i < dcdata[r].length; i += 1) {
+        for (let i = 0; i < dcdata[r].length; i += 1) {
           dcdata[r][i] = 0xff & buffer.getBuffer()[i + offset];
         }
         offset += dcCount;
 
-        var rsPoly = QRUtil.getErrorCorrectPolynomial(ecCount);
-        var rawPoly = new Polynomial(dcdata[r], rsPoly.getLength() - 1);
+        let rsPoly = QRUtil.getErrorCorrectPolynomial(ecCount);
+        let rawPoly = new Polynomial(dcdata[r], rsPoly.getLength() - 1);
 
-        var modPoly = rawPoly.mod(rsPoly);
+        let modPoly = rawPoly.mod(rsPoly);
         ecdata[r] = createNumArray(rsPoly.getLength() - 1);
-        for (var i = 0; i < ecdata[r].length; i += 1) {
-          var modIndex = i + modPoly.getLength() - ecdata[r].length;
+        for (let i = 0; i < ecdata[r].length; i += 1) {
+          let modIndex = i + modPoly.getLength() - ecdata[r].length;
           ecdata[r][i] = (modIndex >= 0)? modPoly.getAt(modIndex) : 0;
         }
       }
 
-      var totalCodeCount = 0;
-      for (var i = 0; i < rsBlocks.length; i += 1) {
+      let totalCodeCount = 0;
+      for (let i = 0; i < rsBlocks.length; i += 1) {
         totalCodeCount += rsBlocks[i].getTotalCount();
       }
 
-      var data = createNumArray(totalCodeCount);
-      var index = 0;
+      let data = createNumArray(totalCodeCount);
+      let index = 0;
 
-      for (var i = 0; i < maxDcCount; i += 1) {
-        for (var r = 0; r < rsBlocks.length; r += 1) {
+      for (let i = 0; i < maxDcCount; i += 1) {
+        for (let r = 0; r < rsBlocks.length; r += 1) {
           if (i < dcdata[r].length) {
             data[index] = dcdata[r][i];
             index += 1;
@@ -451,8 +451,8 @@ namespace com.d_project.qrcode {
         }
       }
 
-      for (var i = 0; i < maxEcCount; i += 1) {
-        for (var r  = 0; r < rsBlocks.length; r += 1) {
+      for (let i = 0; i < maxEcCount; i += 1) {
+        for (let r  = 0; r < rsBlocks.length; r += 1) {
           if (i < ecdata[r].length) {
             data[index] = ecdata[r][i];
             index += 1;
@@ -463,11 +463,11 @@ namespace com.d_project.qrcode {
     }
 
     public toDataURL(cellSize = 2, margin = cellSize * 4) : string {
-      var mods = this.getModuleCount();
-      var size = cellSize * mods + margin * 2;
-      var gif = new com.d_project.image.GIFImage(size, size);
-      for (var y = 0; y < size; y += 1) {
-        for (var x = 0; x < size; x += 1) {
+      let mods = this.getModuleCount();
+      let size = cellSize * mods + margin * 2;
+      let gif = new com.d_project.image.GIFImage(size, size);
+      for (let y = 0; y < size; y += 1) {
+        for (let x = 0; x < size; x += 1) {
           if (margin <= x && x < size - margin &&
               margin <= y && y < size - margin &&
               this.isDark(

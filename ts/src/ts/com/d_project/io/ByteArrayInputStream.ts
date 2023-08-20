@@ -16,7 +16,7 @@ namespace com.d_project.io {
 
     public readByte() : number {
       if (this.pos < this.bytes.length) {
-        var b = this.bytes[this.pos];
+        let b = this.bytes[this.pos];
         this.pos += 1;
         return b;
       }
